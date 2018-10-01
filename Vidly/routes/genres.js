@@ -1,17 +1,20 @@
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const asyncMiddleware = require('../middleware/async');
 const {Genre, validate} = require('../models/genre');
 const express = require('express');
 const router = express.Router();
 
+
 // Retrieves all of the genres from the array
 router.get('/', async (req, res) => {
-    const genres = await Genre.find().sort('name')
+    throw new Error('Could not get the genres.');
+    const genres = await Genre.find().sort('name');
     res.send(genres);
 });
 
 // Retrieves the information from a specific genre using the ID.
-router.get('/:id', async(req, res) => {
+router.get('/:id',async(req, res) => {
     const genre = await Genre.findById(req.params.id);
     if(!genre) {
         res.status(404).send('The genre with the given ID was not found.');
