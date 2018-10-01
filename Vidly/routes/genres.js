@@ -1,3 +1,5 @@
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 const {Genre, validate} = require('../models/genre');
 const express = require('express');
 const router = express.Router();
@@ -19,8 +21,8 @@ router.get('/:id', async(req, res) => {
 });
 
 // Creates a new genre and adds it to the list of genres.
-router.post('/', async(req, res) => {
-    const { error } = validateGenre(req.body);
+router.post('/', auth, async(req, res) => {
+    const { error } = validate(req.body);
     if(error) {
         res.status(400).send(error.details[0].message);
         return;
@@ -34,8 +36,8 @@ router.post('/', async(req, res) => {
 });
 
 // Updates the genre using the ID to find it.
-router.put('/:id', async(req, res) => {
-    const { error } = validateGenre(req.body);
+router.put('/:id', auth, async(req, res) => {
+    const { error } = validate(req.body);
     if(error) {
         res.status(400).send(error.details[0].message);
         return;
@@ -52,7 +54,7 @@ router.put('/:id', async(req, res) => {
 });
 
 // Deletes a specific genre using its ID.
-router.delete('/:id', async(req, res) => {
+router.delete('/:id', [auth, admin], async(req, res) => {
     const genre = await Genre.findByIdAndRemove(req.params.id);
     if(!genre) {
         res.status(404).send('The course with the given ID was not found!');
