@@ -1,6 +1,5 @@
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
-const asyncMiddleware = require('../middleware/async');
 const {Genre, validate} = require('../models/genre');
 const express = require('express');
 const router = express.Router();
