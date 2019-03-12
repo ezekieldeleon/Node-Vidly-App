@@ -15,7 +15,7 @@ const Genre = mongoose.model('Genre', genreSchema);
 // Validates the genre by checking if the name is greater than 3 and making the name a requirment.
 function validateGenre(genre) {
     const schema = {
-        name: Joi.string().min(3).required()
+        name: Joi.string().min(5).max(50).required()
     };
     return Joi.validate(genre, schema);
 }
